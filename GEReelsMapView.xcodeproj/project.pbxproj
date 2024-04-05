@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CDC893D5BAD2BE6736F23A51 /* Pods_GEReelsMapView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4554ADD794BA2DECA55CB7AE /* Pods_GEReelsMapView.framework */; };
 		D12599582BC0A00600426AE2 /* GEReelsMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = D12599572BC0A00600426AE2 /* GEReelsMapView.m */; };
 		D12599592BC0A00600426AE2 /* GEReelsMapView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D12599562BC0A00600426AE2 /* GEReelsMapView.h */; };
 		D12599672BC0A01400426AE2 /* UIView+Named.m in Sources */ = {isa = PBXBuildFile; fileRef = D12599632BC0A01400426AE2 /* UIView+Named.m */; };
 		D12599692BC0A01400426AE2 /* CALayer+HitLock.m in Sources */ = {isa = PBXBuildFile; fileRef = D12599652BC0A01400426AE2 /* CALayer+HitLock.m */; };
 		D125996A2BC0A01400426AE2 /* GEReelsMapConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = D12599662BC0A01400426AE2 /* GEReelsMapConstants.m */; };
+		E8321DBA1B510C2BE0E22EBE /* Pods_GEReelsMapView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEE74032A1B98E92C76798EC /* Pods_GEReelsMapView.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -20,7 +20,7 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
-			dstSubfolderSpec = 16;
+			dstSubfolderSpec = 11;
 			files = (
 				D12599592BC0A00600426AE2 /* GEReelsMapView.h in CopyFiles */,
 			);
@@ -29,7 +29,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4554ADD794BA2DECA55CB7AE /* Pods_GEReelsMapView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GEReelsMapView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E9B6934951DE351DFBBE0F3 /* Pods-GEReelsMapView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEReelsMapView.release.xcconfig"; path = "Target Support Files/Pods-GEReelsMapView/Pods-GEReelsMapView.release.xcconfig"; sourceTree = "<group>"; };
 		AB93CCAB4ECB9B50EAA17549 /* Pods-GEReelsMapView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEReelsMapView.debug.xcconfig"; path = "Target Support Files/Pods-GEReelsMapView/Pods-GEReelsMapView.debug.xcconfig"; sourceTree = "<group>"; };
 		D12599532BC0A00600426AE2 /* libGEReelsMapView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGEReelsMapView.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,6 +40,7 @@
 		D12599632BC0A01400426AE2 /* UIView+Named.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Named.m"; sourceTree = "<group>"; };
 		D12599652BC0A01400426AE2 /* CALayer+HitLock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+HitLock.m"; sourceTree = "<group>"; };
 		D12599662BC0A01400426AE2 /* GEReelsMapConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEReelsMapConstants.m; sourceTree = "<group>"; };
+		EEE74032A1B98E92C76798EC /* Pods_GEReelsMapView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GEReelsMapView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDC893D5BAD2BE6736F23A51 /* Pods_GEReelsMapView.framework in Frameworks */,
+				E8321DBA1B510C2BE0E22EBE /* Pods_GEReelsMapView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,7 +58,7 @@
 		1901928EEE15C408BC8F2DE0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4554ADD794BA2DECA55CB7AE /* Pods_GEReelsMapView.framework */,
+				EEE74032A1B98E92C76798EC /* Pods_GEReelsMapView.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
