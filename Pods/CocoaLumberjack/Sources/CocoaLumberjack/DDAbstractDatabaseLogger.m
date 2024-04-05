@@ -1,6 +1,6 @@
 // Software License Agreement (BSD License)
 //
-// Copyright (c) 2010-2024, Deusty, LLC
+// Copyright (c) 2010-2021, Deusty, LLC
 // All rights reserved.
 //
 // Redistribution and use of this software in source and binary forms,
@@ -114,15 +114,21 @@
         dispatch_source_cancel(_saveTimer);
 
         // Must activate a timer before releasing it (or it will crash)
-        if (_saveTimerSuspended < 0) {
-            dispatch_activate(_saveTimer);
-        } else if (_saveTimerSuspended > 0) {
-            dispatch_resume(_saveTimer);
+        if (@available(macOS 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *)) {
+            if (_saveTimerSuspended < 0) {
+                dispatch_activate(_saveTimer);
+            } else if (_saveTimerSuspended > 0) {
+                dispatch_resume(_saveTimer);
+            }
+        } else {
+            if (_saveTimerSuspended != 0) {
+                dispatch_resume(_saveTimer);
+            }
         }
 
-#if !OS_OBJECT_USE_OBJC
+        #if !OS_OBJECT_USE_OBJC
         dispatch_release(_saveTimer);
-#endif
+        #endif
         _saveTimer = NULL;
         _saveTimerSuspended = 0;
     }
@@ -130,17 +136,24 @@
 
 - (void)updateAndResumeSaveTimer {
     if ((_saveTimer != NULL) && (_saveInterval > 0.0) && (_unsavedTime > 0)) {
-        __auto_type interval = (uint64_t)(_saveInterval * (NSTimeInterval) NSEC_PER_SEC);
-        __auto_type startTime = dispatch_time(_unsavedTime, (int64_t)interval);
+        uint64_t interval = (uint64_t)(_saveInterval * (NSTimeInterval) NSEC_PER_SEC);
+        dispatch_time_t startTime = dispatch_time(_unsavedTime, (int64_t)interval);
 
         dispatch_source_set_timer(_saveTimer, startTime, interval, 1ull * NSEC_PER_SEC);
 
-        if (_saveTimerSuspended < 0) {
-            dispatch_activate(_saveTimer);
-            _saveTimerSuspended = 0;
-        } else if (_saveTimerSuspended > 0) {
-            dispatch_resume(_saveTimer);
-            _saveTimerSuspended = 0;
+        if (@available(macOS 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *)) {
+            if (_saveTimerSuspended < 0) {
+                dispatch_activate(_saveTimer);
+                _saveTimerSuspended = 0;
+            } else if (_saveTimerSuspended > 0) {
+                dispatch_resume(_saveTimer);
+                _saveTimerSuspended = 0;
+            }
+        } else {
+            if (_saveTimerSuspended != 0) {
+                dispatch_resume(_saveTimer);
+                _saveTimerSuspended = 0;
+            }
         }
     }
 }
@@ -150,8 +163,8 @@
         _saveTimer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.loggerQueue);
 
         dispatch_source_set_event_handler(_saveTimer, ^{ @autoreleasepool {
-            [self performSaveAndSuspendSaveTimer];
-        } });
+                                                            [self performSaveAndSuspendSaveTimer];
+                                                        } });
 
         _saveTimerSuspended = -1;
     }
@@ -160,16 +173,16 @@
 - (void)destroyDeleteTimer {
     if (_deleteTimer != NULL) {
         dispatch_source_cancel(_deleteTimer);
-#if !OS_OBJECT_USE_OBJC
+        #if !OS_OBJECT_USE_OBJC
         dispatch_release(_deleteTimer);
-#endif
+        #endif
         _deleteTimer = NULL;
     }
 }
 
 - (void)updateDeleteTimer {
     if ((_deleteTimer != NULL) && (_deleteInterval > 0.0) && (_maxAge > 0.0)) {
-        __auto_type interval = (int64_t)(_deleteInterval * (NSTimeInterval) NSEC_PER_SEC);
+        int64_t interval = (int64_t)(_deleteInterval * (NSTimeInterval) NSEC_PER_SEC);
         dispatch_time_t startTime;
 
         if (_lastDeleteTime > 0) {
@@ -188,14 +201,17 @@
 
         if (_deleteTimer != NULL) {
             dispatch_source_set_event_handler(_deleteTimer, ^{ @autoreleasepool {
-                [self performDelete];
-            } });
+                                                                  [self performDelete];
+                                                              } });
 
             [self updateDeleteTimer];
 
             // We are sure that -updateDeleteTimer did call dispatch_source_set_timer()
             // since it has the same guards on _deleteInterval and _maxAge
-            dispatch_activate(_deleteTimer);
+            if (@available(macOS 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *))
+                dispatch_activate(_deleteTimer);
+            else
+                dispatch_resume(_deleteTimer);
         }
     }
 }
@@ -215,10 +231,14 @@
     // This is the intended result. Fix it by accessing the ivar directly.
     // Great strides have been take to ensure this is safe to do. Plus it's MUCH faster.
 
-    DDAbstractLoggerAssertLockedPropertyAccess();
+    NSAssert(![self isOnGlobalLoggingQueue], @"Core architecture requirement failure");
+    NSAssert(![self isOnInternalLoggerQueue], @"MUST access ivar directly, NOT via self.* syntax.");
+
+    dispatch_queue_t globalLoggingQueue = [DDLog loggingQueue];
 
     __block NSUInteger result;
-    dispatch_sync(DDLog.loggingQueue, ^{
+
+    dispatch_sync(globalLoggingQueue, ^{
         dispatch_sync(self.loggerQueue, ^{
             result = self->_saveThreshold;
         });
@@ -251,8 +271,10 @@
     if ([self isOnInternalLoggerQueue]) {
         block();
     } else {
-        DDAbstractLoggerAssertNotOnGlobalLoggingQueue();
-        dispatch_async(DDLog.loggingQueue, ^{
+        dispatch_queue_t globalLoggingQueue = [DDLog loggingQueue];
+        NSAssert(![self isOnGlobalLoggingQueue], @"Core architecture requirement failure");
+
+        dispatch_async(globalLoggingQueue, ^{
             dispatch_async(self.loggerQueue, block);
         });
     }
@@ -269,10 +291,14 @@
     // This is the intended result. Fix it by accessing the ivar directly.
     // Great strides have been take to ensure this is safe to do. Plus it's MUCH faster.
 
-    DDAbstractLoggerAssertLockedPropertyAccess();
+    NSAssert(![self isOnGlobalLoggingQueue], @"Core architecture requirement failure");
+    NSAssert(![self isOnInternalLoggerQueue], @"MUST access ivar directly, NOT via self.* syntax.");
+
+    dispatch_queue_t globalLoggingQueue = [DDLog loggingQueue];
 
     __block NSTimeInterval result;
-    dispatch_sync(DDLog.loggingQueue, ^{
+
+    dispatch_sync(globalLoggingQueue, ^{
         dispatch_sync(self.loggerQueue, ^{
             result = self->_saveInterval;
         });
@@ -282,7 +308,7 @@
 }
 
 - (void)setSaveInterval:(NSTimeInterval)interval {
-    __auto_type block = ^{
+    dispatch_block_t block = ^{
         @autoreleasepool {
             // C99 recommended floating point comparison macro
             // Read: isLessThanOrGreaterThan(floatA, floatB)
@@ -336,8 +362,10 @@
     if ([self isOnInternalLoggerQueue]) {
         block();
     } else {
-        DDAbstractLoggerAssertNotOnGlobalLoggingQueue();
-        dispatch_async(DDLog.loggingQueue, ^{
+        dispatch_queue_t globalLoggingQueue = [DDLog loggingQueue];
+        NSAssert(![self isOnGlobalLoggingQueue], @"Core architecture requirement failure");
+
+        dispatch_async(globalLoggingQueue, ^{
             dispatch_async(self.loggerQueue, block);
         });
     }
@@ -354,11 +382,14 @@
     // This is the intended result. Fix it by accessing the ivar directly.
     // Great strides have been take to ensure this is safe to do. Plus it's MUCH faster.
 
-    DDAbstractLoggerAssertLockedPropertyAccess();
+    NSAssert(![self isOnGlobalLoggingQueue], @"Core architecture requirement failure");
+    NSAssert(![self isOnInternalLoggerQueue], @"MUST access ivar directly, NOT via self.* syntax.");
+
+    dispatch_queue_t globalLoggingQueue = [DDLog loggingQueue];
 
     __block NSTimeInterval result;
 
-    dispatch_sync(DDLog.loggingQueue, ^{
+    dispatch_sync(globalLoggingQueue, ^{
         dispatch_sync(self.loggerQueue, ^{
             result = self->_maxAge;
         });
@@ -368,14 +399,14 @@
 }
 
 - (void)setMaxAge:(NSTimeInterval)interval {
-    __auto_type block = ^{
+    dispatch_block_t block = ^{
         @autoreleasepool {
             // C99 recommended floating point comparison macro
             // Read: isLessThanOrGreaterThan(floatA, floatB)
 
             if (/* maxAge != interval */ islessgreater(self->_maxAge, interval)) {
-                __auto_type oldMaxAge = self->_maxAge;
-                __auto_type newMaxAge = interval;
+                NSTimeInterval oldMaxAge = self->_maxAge;
+                NSTimeInterval newMaxAge = interval;
 
                 self->_maxAge = interval;
 
@@ -393,7 +424,7 @@
                 // 4. If the maxAge was decreased,
                 //    then we should do an immediate delete.
 
-                __auto_type shouldDeleteNow = NO;
+                BOOL shouldDeleteNow = NO;
 
                 if (oldMaxAge > 0.0) {
                     if (newMaxAge <= 0.0) {
@@ -428,8 +459,10 @@
     if ([self isOnInternalLoggerQueue]) {
         block();
     } else {
-        DDAbstractLoggerAssertNotOnGlobalLoggingQueue();
-        dispatch_async(DDLog.loggingQueue, ^{
+        dispatch_queue_t globalLoggingQueue = [DDLog loggingQueue];
+        NSAssert(![self isOnGlobalLoggingQueue], @"Core architecture requirement failure");
+
+        dispatch_async(globalLoggingQueue, ^{
             dispatch_async(self.loggerQueue, block);
         });
     }
@@ -446,11 +479,14 @@
     // This is the intended result. Fix it by accessing the ivar directly.
     // Great strides have been take to ensure this is safe to do. Plus it's MUCH faster.
 
-    DDAbstractLoggerAssertLockedPropertyAccess();
+    NSAssert(![self isOnGlobalLoggingQueue], @"Core architecture requirement failure");
+    NSAssert(![self isOnInternalLoggerQueue], @"MUST access ivar directly, NOT via self.* syntax.");
+
+    dispatch_queue_t globalLoggingQueue = [DDLog loggingQueue];
 
     __block NSTimeInterval result;
 
-    dispatch_sync(DDLog.loggingQueue, ^{
+    dispatch_sync(globalLoggingQueue, ^{
         dispatch_sync(self.loggerQueue, ^{
             result = self->_deleteInterval;
         });
@@ -460,7 +496,7 @@
 }
 
 - (void)setDeleteInterval:(NSTimeInterval)interval {
-    __auto_type block = ^{
+    dispatch_block_t block = ^{
         @autoreleasepool {
             // C99 recommended floating point comparison macro
             // Read: isLessThanOrGreaterThan(floatA, floatB)
@@ -513,9 +549,10 @@
     if ([self isOnInternalLoggerQueue]) {
         block();
     } else {
-        DDAbstractLoggerAssertNotOnGlobalLoggingQueue();
+        dispatch_queue_t globalLoggingQueue = [DDLog loggingQueue];
+        NSAssert(![self isOnGlobalLoggingQueue], @"Core architecture requirement failure");
 
-        dispatch_async(DDLog.loggingQueue, ^{
+        dispatch_async(globalLoggingQueue, ^{
             dispatch_async(self.loggerQueue, block);
         });
     }
@@ -532,11 +569,14 @@
     // This is the intended result. Fix it by accessing the ivar directly.
     // Great strides have been take to ensure this is safe to do. Plus it's MUCH faster.
 
-    DDAbstractLoggerAssertLockedPropertyAccess();
+    NSAssert(![self isOnGlobalLoggingQueue], @"Core architecture requirement failure");
+    NSAssert(![self isOnInternalLoggerQueue], @"MUST access ivar directly, NOT via self.* syntax.");
+
+    dispatch_queue_t globalLoggingQueue = [DDLog loggingQueue];
 
     __block BOOL result;
 
-    dispatch_sync(DDLog.loggingQueue, ^{
+    dispatch_sync(globalLoggingQueue, ^{
         dispatch_sync(self.loggerQueue, ^{
             result = self->_deleteOnEverySave;
         });
@@ -546,7 +586,7 @@
 }
 
 - (void)setDeleteOnEverySave:(BOOL)flag {
-    __auto_type block = ^{
+    dispatch_block_t block = ^{
         self->_deleteOnEverySave = flag;
     };
 
@@ -556,8 +596,10 @@
     if ([self isOnInternalLoggerQueue]) {
         block();
     } else {
-        DDAbstractLoggerAssertNotOnGlobalLoggingQueue();
-        dispatch_async(DDLog.loggingQueue, ^{
+        dispatch_queue_t globalLoggingQueue = [DDLog loggingQueue];
+        NSAssert(![self isOnGlobalLoggingQueue], @"Core architecture requirement failure");
+
+        dispatch_async(globalLoggingQueue, ^{
             dispatch_async(self.loggerQueue, block);
         });
     }
@@ -568,7 +610,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 - (void)savePendingLogEntries {
-    __auto_type block = ^{
+    dispatch_block_t block = ^{
         @autoreleasepool {
             [self performSaveAndSuspendSaveTimer];
         }
@@ -582,7 +624,7 @@
 }
 
 - (void)deleteOldLogEntries {
-    __auto_type block = ^{
+    dispatch_block_t block = ^{
         @autoreleasepool {
             [self performDelete];
         }
@@ -601,20 +643,24 @@
 
 - (void)didAddLogger {
     // If you override me be sure to invoke [super didAddLogger];
+
     [self createSuspendedSaveTimer];
+
     [self createAndStartDeleteTimer];
 }
 
 - (void)willRemoveLogger {
     // If you override me be sure to invoke [super willRemoveLogger];
+
     [self performSaveAndSuspendSaveTimer];
+
     [self destroySaveTimer];
     [self destroyDeleteTimer];
 }
 
 - (void)logMessage:(DDLogMessage *)logMessage {
     if ([self db_log:logMessage]) {
-        __auto_type firstUnsavedEntry = (++_unsavedCount == 1);
+        BOOL firstUnsavedEntry = (++_unsavedCount == 1);
 
         if ((_unsavedCount >= _saveThreshold) && (_saveThreshold > 0)) {
             [self performSaveAndSuspendSaveTimer];
@@ -630,6 +676,7 @@
     //
     // It is called automatically when the application quits,
     // or if the developer invokes DDLog's flushLog method prior to crashing or something.
+
     [self performSaveAndSuspendSaveTimer];
 }
 

@@ -14,9 +14,9 @@ PODS:
   - BlocksKit/UIKit (2.2.5):
     - BlocksKit/Core
     - BlocksKit/DynamicDelegate
-  - CocoaLumberjack (3.8.5):
-    - CocoaLumberjack/Core (= 3.8.5)
-  - CocoaLumberjack/Core (3.8.5)
+  - CocoaLumberjack (3.7.4):
+    - CocoaLumberjack/Core (= 3.7.4)
+  - CocoaLumberjack/Core (3.7.4)
   - SVGKit (3.0.0):
     - CocoaLumberjack (~> 3.0)
 
@@ -32,9 +32,9 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   BlocksKit: 8639b2848dd51c35c957af4d9fbdc7a769a1fc12
-  CocoaLumberjack: 6a459bc897d6d80bd1b8c78482ec7ad05dffc3f0
+  CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
   SVGKit: 1ad7513f8c74d9652f94ed64ddecda1a23864dea
 
-PODFILE CHECKSUM: ce67d0066b51635a3e8ca101c440c7dbb750256e
+PODFILE CHECKSUM: e38a483375d97bdf42df75e461f5e46f29a242ee
 
 COCOAPODS: 1.15.2

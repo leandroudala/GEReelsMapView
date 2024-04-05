@@ -1,6 +1,6 @@
 // Software License Agreement (BSD License)
 //
-// Copyright (c) 2010-2024, Deusty, LLC
+// Copyright (c) 2010-2021, Deusty, LLC
 // All rights reserved.
 //
 // Redistribution and use of this software in source and binary forms,
@@ -134,70 +134,99 @@ static DDQualityOfServiceName _qos_name(NSUInteger qos) {
 - (NSString *)queueThreadLabelForLogMessage:(DDLogMessage *)logMessage {
     // As per the DDLogFormatter contract, this method is always invoked on the same thread/dispatch_queue
 
-    __auto_type useQueueLabel = NO;
-    if (logMessage->_queueLabel) {
-        useQueueLabel = YES;
+    NSUInteger minQueueLength = self.minQueueLength;
+    NSUInteger maxQueueLength = self.maxQueueLength;
 
+    // Get the name of the queue, thread, or machID (whichever we are to use).
+
+    NSString *queueThreadLabel = nil;
+
+    BOOL useQueueLabel = YES;
+    BOOL useThreadName = NO;
+
+    if (logMessage->_queueLabel) {
         // If you manually create a thread, it's dispatch_queue will have one of the thread names below.
         // Since all such threads have the same name, we'd prefer to use the threadName or the machThreadID.
-        const NSArray<NSString *> *names = @[
+
+        NSArray *names = @[
             @"com.apple.root.low-priority",
             @"com.apple.root.default-priority",
             @"com.apple.root.high-priority",
             @"com.apple.root.low-overcommit-priority",
             @"com.apple.root.default-overcommit-priority",
             @"com.apple.root.high-overcommit-priority",
-            @"com.apple.root.default-qos.overcommit",
+            @"com.apple.root.default-qos.overcommit"
         ];
-        for (NSString *name in names) {
+
+        for (NSString * name in names) {
             if ([logMessage->_queueLabel isEqualToString:name]) {
                 useQueueLabel = NO;
+                useThreadName = [logMessage->_threadName length] > 0;
                 break;
             }
         }
+    } else {
+        useQueueLabel = NO;
+        useThreadName = [logMessage->_threadName length] > 0;
     }
 
-    // Get the name of the queue, thread, or machID (whichever we are to use).
-    NSString *queueThreadLabel;
-    if (useQueueLabel || [logMessage->_threadName length] > 0) {
-        __auto_type fullLabel = useQueueLabel ? logMessage->_queueLabel : logMessage->_threadName;
-
+    if (useQueueLabel || useThreadName) {
+        NSString *fullLabel;
         NSString *abrvLabel;
+
+        if (useQueueLabel) {
+            fullLabel = logMessage->_queueLabel;
+        } else {
+            fullLabel = logMessage->_threadName;
+        }
+
         pthread_mutex_lock(&_mutex);
         {
             abrvLabel = _replacements[fullLabel];
         }
         pthread_mutex_unlock(&_mutex);
 
-        queueThreadLabel = abrvLabel ?: fullLabel;
+        if (abrvLabel) {
+            queueThreadLabel = abrvLabel;
+        } else {
+            queueThreadLabel = fullLabel;
+        }
     } else {
         queueThreadLabel = logMessage->_threadID;
     }
 
     // Now use the thread label in the output
+
+    NSUInteger labelLength = [queueThreadLabel length];
+
     // labelLength > maxQueueLength : truncate
     // labelLength < minQueueLength : padding
     //                              : exact
-    __auto_type minQueueLength = self.minQueueLength;
-    __auto_type maxQueueLength = self.maxQueueLength;
-    __auto_type labelLength = [queueThreadLabel length];
-    if (maxQueueLength > 0 && labelLength > maxQueueLength) {
+
+    if ((maxQueueLength > 0) && (labelLength > maxQueueLength)) {
         // Truncate
+
         return [queueThreadLabel substringToIndex:maxQueueLength];
     } else if (labelLength < minQueueLength) {
         // Padding
-        return [queueThreadLabel stringByPaddingToLength:minQueueLength
-                                              withString:@" "
-                                         startingAtIndex:0];
+
+        NSUInteger numSpaces = minQueueLength - labelLength;
+
+        char spaces[numSpaces + 1];
+        memset(spaces, ' ', numSpaces);
+        spaces[numSpaces] = '\0';
+
+        return [NSString stringWithFormat:@"%@%s", queueThreadLabel, spaces];
     } else {
         // Exact
+
         return queueThreadLabel;
     }
 }
 
 - (NSString *)formatLogMessage:(DDLogMessage *)logMessage {
-    __auto_type timestamp = [self stringFromDate:logMessage->_timestamp];
-    __auto_type queueThreadLabel = [self queueThreadLabelForLogMessage:logMessage];
+    NSString *timestamp = [self stringFromDate:(logMessage->_timestamp)];
+    NSString *queueThreadLabel = [self queueThreadLabelForLogMessage:logMessage];
 
     return [NSString stringWithFormat:@"%@ [%@ (QOS:%@)] %@", timestamp, queueThreadLabel, _qos_name(logMessage->_qos), logMessage->_message];
 }
