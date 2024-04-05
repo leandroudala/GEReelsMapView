@@ -6,4 +6,5 @@ Pod::Spec.new do |s|
   s.license      = { :type => "MIT" }
   s.summary      = "GEReelsMapView lib for Reels Management System iOS app"
   s.homepage     = "https://github.com/leandroudala/GEReelsMapView"
+  s.source_files = "GEReelsMapView/**/*.{h,m}"
 end
