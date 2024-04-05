@@ -11,7 +11,6 @@
 		D12599582BC0A00600426AE2 /* GEReelsMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = D12599572BC0A00600426AE2 /* GEReelsMapView.m */; };
 		D12599592BC0A00600426AE2 /* GEReelsMapView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D12599562BC0A00600426AE2 /* GEReelsMapView.h */; };
 		D12599672BC0A01400426AE2 /* UIView+Named.m in Sources */ = {isa = PBXBuildFile; fileRef = D12599632BC0A01400426AE2 /* UIView+Named.m */; };
-		D12599682BC0A01400426AE2 /* GEReelsMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = D12599642BC0A01400426AE2 /* GEReelsMapView.m */; };
 		D12599692BC0A01400426AE2 /* CALayer+HitLock.m in Sources */ = {isa = PBXBuildFile; fileRef = D12599652BC0A01400426AE2 /* CALayer+HitLock.m */; };
 		D125996A2BC0A01400426AE2 /* GEReelsMapConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = D12599662BC0A01400426AE2 /* GEReelsMapConstants.m */; };
 /* End PBXBuildFile section */
@@ -37,11 +36,9 @@
 		D12599562BC0A00600426AE2 /* GEReelsMapView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GEReelsMapView.h; sourceTree = "<group>"; };
 		D12599572BC0A00600426AE2 /* GEReelsMapView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GEReelsMapView.m; sourceTree = "<group>"; };
 		D125995F2BC0A01400426AE2 /* GEReelsMapConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEReelsMapConstants.h; sourceTree = "<group>"; };
-		D12599602BC0A01400426AE2 /* GEReelsMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEReelsMapView.h; path = ../../baker/rms/ios/Vendor/GEReelsMapView/GEReelsMapView/GEReelsMapView.h; sourceTree = "<group>"; };
 		D12599612BC0A01400426AE2 /* CALayer+HitLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+HitLock.h"; sourceTree = "<group>"; };
 		D12599622BC0A01400426AE2 /* UIView+Named.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Named.h"; sourceTree = "<group>"; };
 		D12599632BC0A01400426AE2 /* UIView+Named.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Named.m"; sourceTree = "<group>"; };
-		D12599642BC0A01400426AE2 /* GEReelsMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEReelsMapView.m; path = ../../baker/rms/ios/Vendor/GEReelsMapView/GEReelsMapView/GEReelsMapView.m; sourceTree = "<group>"; };
 		D12599652BC0A01400426AE2 /* CALayer+HitLock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+HitLock.m"; sourceTree = "<group>"; };
 		D12599662BC0A01400426AE2 /* GEReelsMapConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEReelsMapConstants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,8 +88,6 @@
 				D12599652BC0A01400426AE2 /* CALayer+HitLock.m */,
 				D125995F2BC0A01400426AE2 /* GEReelsMapConstants.h */,
 				D12599662BC0A01400426AE2 /* GEReelsMapConstants.m */,
-				D12599602BC0A01400426AE2 /* GEReelsMapView.h */,
-				D12599642BC0A01400426AE2 /* GEReelsMapView.m */,
 				D12599622BC0A01400426AE2 /* UIView+Named.h */,
 				D12599632BC0A01400426AE2 /* UIView+Named.m */,
 				D12599562BC0A00600426AE2 /* GEReelsMapView.h */,
@@ -195,7 +190,6 @@
 			files = (
 				D12599672BC0A01400426AE2 /* UIView+Named.m in Sources */,
 				D125996A2BC0A01400426AE2 /* GEReelsMapConstants.m in Sources */,
-				D12599682BC0A01400426AE2 /* GEReelsMapView.m in Sources */,
 				D12599692BC0A01400426AE2 /* CALayer+HitLock.m in Sources */,
 				D12599582BC0A00600426AE2 /* GEReelsMapView.m in Sources */,
 			);
