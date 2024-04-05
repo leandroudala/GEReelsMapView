@@ -7,8 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CDC893D5BAD2BE6736F23A51 /* Pods_GEReelsMapView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4554ADD794BA2DECA55CB7AE /* Pods_GEReelsMapView.framework */; };
 		D12599582BC0A00600426AE2 /* GEReelsMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = D12599572BC0A00600426AE2 /* GEReelsMapView.m */; };
 		D12599592BC0A00600426AE2 /* GEReelsMapView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = D12599562BC0A00600426AE2 /* GEReelsMapView.h */; };
+		D12599672BC0A01400426AE2 /* UIView+Named.m in Sources */ = {isa = PBXBuildFile; fileRef = D12599632BC0A01400426AE2 /* UIView+Named.m */; };
+		D12599682BC0A01400426AE2 /* GEReelsMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = D12599642BC0A01400426AE2 /* GEReelsMapView.m */; };
+		D12599692BC0A01400426AE2 /* CALayer+HitLock.m in Sources */ = {isa = PBXBuildFile; fileRef = D12599652BC0A01400426AE2 /* CALayer+HitLock.m */; };
+		D125996A2BC0A01400426AE2 /* GEReelsMapConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = D12599662BC0A01400426AE2 /* GEReelsMapConstants.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,9 +30,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4554ADD794BA2DECA55CB7AE /* Pods_GEReelsMapView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GEReelsMapView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E9B6934951DE351DFBBE0F3 /* Pods-GEReelsMapView.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEReelsMapView.release.xcconfig"; path = "Target Support Files/Pods-GEReelsMapView/Pods-GEReelsMapView.release.xcconfig"; sourceTree = "<group>"; };
+		AB93CCAB4ECB9B50EAA17549 /* Pods-GEReelsMapView.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GEReelsMapView.debug.xcconfig"; path = "Target Support Files/Pods-GEReelsMapView/Pods-GEReelsMapView.debug.xcconfig"; sourceTree = "<group>"; };
 		D12599532BC0A00600426AE2 /* libGEReelsMapView.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libGEReelsMapView.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D12599562BC0A00600426AE2 /* GEReelsMapView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GEReelsMapView.h; sourceTree = "<group>"; };
 		D12599572BC0A00600426AE2 /* GEReelsMapView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GEReelsMapView.m; sourceTree = "<group>"; };
+		D125995F2BC0A01400426AE2 /* GEReelsMapConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEReelsMapConstants.h; sourceTree = "<group>"; };
+		D12599602BC0A01400426AE2 /* GEReelsMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GEReelsMapView.h; path = ../../baker/rms/ios/Vendor/GEReelsMapView/GEReelsMapView/GEReelsMapView.h; sourceTree = "<group>"; };
+		D12599612BC0A01400426AE2 /* CALayer+HitLock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+HitLock.h"; sourceTree = "<group>"; };
+		D12599622BC0A01400426AE2 /* UIView+Named.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Named.h"; sourceTree = "<group>"; };
+		D12599632BC0A01400426AE2 /* UIView+Named.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Named.m"; sourceTree = "<group>"; };
+		D12599642BC0A01400426AE2 /* GEReelsMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GEReelsMapView.m; path = ../../baker/rms/ios/Vendor/GEReelsMapView/GEReelsMapView/GEReelsMapView.m; sourceTree = "<group>"; };
+		D12599652BC0A01400426AE2 /* CALayer+HitLock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+HitLock.m"; sourceTree = "<group>"; };
+		D12599662BC0A01400426AE2 /* GEReelsMapConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEReelsMapConstants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,17 +51,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDC893D5BAD2BE6736F23A51 /* Pods_GEReelsMapView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1901928EEE15C408BC8F2DE0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4554ADD794BA2DECA55CB7AE /* Pods_GEReelsMapView.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D125994A2BC0A00600426AE2 = {
 			isa = PBXGroup;
 			children = (
 				D12599552BC0A00600426AE2 /* GEReelsMapView */,
 				D12599542BC0A00600426AE2 /* Products */,
+				E54631B3D5C57782F984BF42 /* Pods */,
+				1901928EEE15C408BC8F2DE0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,10 +87,27 @@
 		D12599552BC0A00600426AE2 /* GEReelsMapView */ = {
 			isa = PBXGroup;
 			children = (
+				D12599612BC0A01400426AE2 /* CALayer+HitLock.h */,
+				D12599652BC0A01400426AE2 /* CALayer+HitLock.m */,
+				D125995F2BC0A01400426AE2 /* GEReelsMapConstants.h */,
+				D12599662BC0A01400426AE2 /* GEReelsMapConstants.m */,
+				D12599602BC0A01400426AE2 /* GEReelsMapView.h */,
+				D12599642BC0A01400426AE2 /* GEReelsMapView.m */,
+				D12599622BC0A01400426AE2 /* UIView+Named.h */,
+				D12599632BC0A01400426AE2 /* UIView+Named.m */,
 				D12599562BC0A00600426AE2 /* GEReelsMapView.h */,
 				D12599572BC0A00600426AE2 /* GEReelsMapView.m */,
 			);
 			path = GEReelsMapView;
+			sourceTree = "<group>";
+		};
+		E54631B3D5C57782F984BF42 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AB93CCAB4ECB9B50EAA17549 /* Pods-GEReelsMapView.debug.xcconfig */,
+				4E9B6934951DE351DFBBE0F3 /* Pods-GEReelsMapView.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -73,6 +117,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D125995C2BC0A00600426AE2 /* Build configuration list for PBXNativeTarget "GEReelsMapView" */;
 			buildPhases = (
+				5DC26C88A4DE01F7667086BC /* [CP] Check Pods Manifest.lock */,
 				D125994F2BC0A00600426AE2 /* Sources */,
 				D12599502BC0A00600426AE2 /* Frameworks */,
 				D12599512BC0A00600426AE2 /* CopyFiles */,
@@ -118,11 +163,40 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5DC26C88A4DE01F7667086BC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GEReelsMapView-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		D125994F2BC0A00600426AE2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D12599672BC0A01400426AE2 /* UIView+Named.m in Sources */,
+				D125996A2BC0A01400426AE2 /* GEReelsMapConstants.m in Sources */,
+				D12599682BC0A01400426AE2 /* GEReelsMapView.m in Sources */,
+				D12599692BC0A01400426AE2 /* CALayer+HitLock.m in Sources */,
 				D12599582BC0A00600426AE2 /* GEReelsMapView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -182,7 +256,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -237,7 +311,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -248,9 +322,11 @@
 		};
 		D125995D2BC0A00600426AE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AB93CCAB4ECB9B50EAA17549 /* Pods-GEReelsMapView.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WY8CLDN9F8;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -260,9 +336,11 @@
 		};
 		D125995E2BC0A00600426AE2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E9B6934951DE351DFBBE0F3 /* Pods-GEReelsMapView.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WY8CLDN9F8;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
